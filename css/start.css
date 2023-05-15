@@ -1,0 +1,25 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #d7fd73;
+    --secondary-color: #203136;
+    --text-color: #ffffff;
+}
+main{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #203136;
+}
+
+.start-logo{
+    width: 250px;
+    background-color: var(--primary-color);
+    /* border-radius: 100px; */
+}
