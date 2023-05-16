@@ -51,3 +51,10 @@ function startSlideshow() {
 
 // Start the slideshow when the page loads
 window.onload = startSlideshow;
+
+
+let getStarted = document.getElementById("getStartedBtn")
+
+getStarted.addEventListener("click", ()=>{
+    window.location.href =".././html/signup.html"
+})
