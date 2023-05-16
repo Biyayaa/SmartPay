@@ -1,5 +1,5 @@
 let startPage = document.getElementById("startPage");
 
 setTimeout(() => {
-  window.location.href = "onboarding.html";
+  window.location.href = ".././html/onboarding.html";
 }, 2000);
