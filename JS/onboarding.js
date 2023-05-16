@@ -58,3 +58,8 @@ let getStarted = document.getElementById("getStartedBtn")
 getStarted.addEventListener("click", ()=>{
     window.location.href =".././html/signup.html"
 })
+
+let signup = document.getElementById("signup");
+signup.addEventListener("click", ()=>{
+    window.location.href =".././html/login.html"
+})
