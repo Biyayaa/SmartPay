@@ -8,15 +8,25 @@ airtime.style.display = "none";
 send.style.display = "none";
 secure.style.display = "none";
 
+// Get the progress bars
+const progressBars = document.getElementById("slideProgress").children;
+
 
 
 // Set the current slide index to 0
 let slideIndex = 0;
 
+// Set the corresponding progress bar color
+progressBars[slideIndex].style.backgroundColor = "#d7fd73";
+
 // Create a function to show the next slide
 function nextSlide() {
   // Hide the current slide
   document.getElementById("slides").children[slideIndex].style.display = "none";
+
+  // Reset the progress bar color
+  progressBars[slideIndex].style.backgroundColor = "";
+
 
   // Increase the slide index by 1
   slideIndex++;
@@ -28,6 +38,9 @@ function nextSlide() {
 
   // Show the next slide
   document.getElementById("slides").children[slideIndex].style.display = "block";
+
+   // Set the corresponding progress bar color
+   progressBars[slideIndex].style.backgroundColor = "#d7fd73";
 }
 
 // Create a function to start the slideshow
