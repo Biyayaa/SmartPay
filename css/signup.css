@@ -25,7 +25,7 @@ body {
     text-align: center;
 }
 
-h2{
+.logo h2{
     margin: 20px 0;
     color: #d7fd73;
 }
@@ -49,6 +49,7 @@ main img{
 
 h2 {
   text-align: center;
+  margin: 10px 0;
 }
 
 input[type="text"],
