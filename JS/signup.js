@@ -86,3 +86,6 @@ registeredUsers.forEach(function (user) {
   console.log(user.accountNumber);
 });
 
+function next() {
+    window.location.href = ".././html/setpin.html"
+}
