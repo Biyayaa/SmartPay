@@ -12,7 +12,7 @@
 }
 
 body {
-  background-color: #203136;
+  background-color: var(--secondary-color);
   color: #ffffff;
   font-family: Arial, sans-serif;
 }
@@ -33,7 +33,31 @@ body {
 
 .logo span{
     margin-top: 20px;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+#numberBox{
+    background-color: var(--primary-color);
+    color: black;
+    font-size: 40px;
+    margin: 20px ;
+    font-weight: 900;
+    display: flex;
+}
+
+.btn{
+    text-align: center;
+}
+
+.btn button{
+    width: 150px;
+    height: 50px;
+    border-radius: 10px;
     font-size: 20px;
+    font-weight: 600;
+    border: 1px solid var(--primary-color);
+    background-color: white;
 }
 
 .loader {

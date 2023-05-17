@@ -29,12 +29,13 @@ function signUp(ev) {
   if (password !== confirmPassword) {
     alert("Passwords do not match");
     return;
-  } else {
+  }
+   else {
     function accountNumber() {
-      const randomNumber = Math.floor(Math.random() * 1000000000);
-      const accountNumber = randomNumber.toString().padStart(9, "0");
-      return accountNumber;
-    }
+        let randomNumber = Math.floor(Math.random() * 9999999999);
+        let accountNumber = randomNumber.toString();
+        return accountNumber;
+      }
     // Retrieve registered users from local storage
     let registeredUsers =
       JSON.parse(localStorage.getItem("registeredUsers")) || [];
@@ -73,3 +74,15 @@ function signUp(ev) {
     }, 2000);
   }
 }
+
+
+// Retrieve registered users from local storage
+let registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+
+let numberBox = document.getElementById("numberBox");
+
+registeredUsers.forEach(function (user) {
+  numberBox.innerHTML = user.accountNumber;
+  console.log(user.accountNumber);
+});
+
