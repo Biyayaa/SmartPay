@@ -9,7 +9,7 @@ send.style.display = "none";
 secure.style.display = "none";
 
 // Get the progress bars
-const progressBars = document.getElementById("slideProgress").children;
+let progressBars = document.getElementById("slideProgress").children;
 
 
 

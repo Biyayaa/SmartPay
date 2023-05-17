@@ -1,0 +1,55 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #d7fd73;
+  --secondary-color: #203136;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: #203136;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+}
+
+.logo {
+  margin: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.logo h2 {
+  margin: 20px 0;
+  color: #d7fd73;
+}
+
+.logo span{
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.loader {
+  border: 5px solid var(--secondary-color);
+  border-top: 5px solid var(--primary-color);
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
