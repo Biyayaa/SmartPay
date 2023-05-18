@@ -89,3 +89,44 @@ a{
     color: #d7fd73;
     text-decoration: none;
 }
+
+
+.logo span{
+  font-size: 20px;
+}
+
+.logo input{
+  border: none;
+  text-align: center;
+  color: #203136;
+  font-weight: 900;
+  letter-spacing: 10px;
+}
+
+.logo input::placeholder{
+  font-weight: 300;
+  font-size: 15px;
+  letter-spacing: normal;
+}
+
+.btn{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#setPin{
+  background-color: #d7fd73;
+  font-weight: 700;
+  font-size: 20px;
+  border-radius: 10px;
+  color: #203136;
+  width: fit-content;
+  padding: 10px;
+}
+
+.btn span{
+  margin: 5px 20px;
+}

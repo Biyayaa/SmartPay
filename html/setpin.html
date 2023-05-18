@@ -1,1 +1,45 @@
-Set your pin
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/signup.css">
+</head>
+
+<body>
+
+    <main>
+        <div class="logo">
+            <!-- <img src="../Images/logo.png" alt=""> -->
+            <h2>SmartPay</h2>
+        </div>
+
+        <div class="logo">
+            <span>Set a transaction pin</span>
+            <div class="acctback">
+                <input id="pinBox" type="password" placeholder="set a 4-digit transaction pin">
+            </div>
+        </div>
+
+
+        <div class="logo">
+            <span>Confirm transaction pin</span>
+            <div class="acctback">
+                <input id="confirmpinBox" type="password" placeholder="confirm your transaction pin">
+            </div>
+        </div>
+
+        <div class="btn">
+            <button id="setPin" onclick="updatePin()">Confirm</button>
+            <span>Your transaction pin will be used to confirm transfers, make sure to keep it safe.</span>
+        </div>
+
+    </main>
+
+    <script src="../JS/signup.js"></script>
+</body>
+
+</html>
