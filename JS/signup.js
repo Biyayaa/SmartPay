@@ -61,12 +61,16 @@ function signUp(ev) {
   };
   registeredUsers.push(newUser);
 
+  let loader = document.getElementById("loader");
+
   localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
 
-  alert("Signup successful");
-  signupForm.reset();
+  loader.style.display = "block";
 
+  // signupForm.reset();
+  
   setTimeout(() => {
+    alert("Signup successful");
     window.location.href = ".././html/accloading.html";
   }, 2000);
 }
