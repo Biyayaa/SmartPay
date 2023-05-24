@@ -1,0 +1,19 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1, h2, p {
+    margin: 20px;
+  }
+  
+  #lastName {
+    font-weight: bold;
+  }
+  
+  #balance {
+    font-weight: bold;
+    font-size: 20px;
+    color: green;
+  }
+  

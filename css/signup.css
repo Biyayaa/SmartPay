@@ -1,7 +1,7 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
@@ -16,24 +16,24 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.logo{
-    margin:50px 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.logo {
+  margin: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
-.logo h2{
-    margin: 20px 0;
-    color: #d7fd73;
+.logo h2 {
+  margin: 20px 0;
+  color: #d7fd73;
 }
 
-main img{
-    width: 100%;
-    max-width: 300px;
-    height: 150px;
+main img {
+  width: 100%;
+  max-width: 300px;
+  height: 150px;
 }
 
 .container {
@@ -78,21 +78,20 @@ button[type="submit"]:hover {
   color: #203136;
 }
 
-.to-login{
-    text-align: center;
+.to-login {
+  text-align: center;
 }
 
-a{
-    color: #d7fd73;
-    text-decoration: none;
+a {
+  color: #d7fd73;
+  text-decoration: none;
 }
 
-
-.logo span{
+.logo span {
   font-size: 20px;
 }
 
-.logo input{
+.logo input {
   border: none;
   text-align: center;
   color: #203136;
@@ -100,13 +99,13 @@ a{
   letter-spacing: 10px;
 }
 
-.logo input::placeholder{
+.logo input::placeholder {
   font-weight: 300;
   font-size: 15px;
   letter-spacing: normal;
 }
 
-.btn{
+.btn {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -114,7 +113,7 @@ a{
   text-align: center;
 }
 
-#setPin{
+#setPin {
   background-color: #d7fd73;
   font-weight: 700;
   font-size: 20px;
@@ -124,10 +123,9 @@ a{
   padding: 10px;
 }
 
-.btn span{
+.btn span {
   margin: 5px 20px;
 }
-
 
 .loader {
   border: 5px solid var(--secondary-color);
@@ -150,4 +148,3 @@ a{
     transform: rotate(360deg);
   }
 }
-

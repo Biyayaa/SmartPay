@@ -58,6 +58,7 @@ function signUp(ev) {
     accountNumber: accountNumber(),
     balance: 10000.0,
     pin: null,
+    displayName: null,
   };
   registeredUsers.push(newUser);
 
@@ -68,7 +69,7 @@ function signUp(ev) {
   loader.style.display = "block";
 
   // signupForm.reset();
-  
+
   setTimeout(() => {
     alert("Signup successful");
     window.location.href = ".././html/accloading.html";
@@ -119,11 +120,8 @@ function updatePin() {
     localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
 
     alert("Transaction pin set successfully");
-    window.location.href = ".././html/login.html"
+    window.location.href = ".././html/login.html";
   } else {
     alert("Transaction pins do not match");
   }
-
-  
-  
 }
