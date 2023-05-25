@@ -1,44 +1,34 @@
 // Retrieve the signed-in user's data from session storage
-let currentUser = localStorage.getItem("currentUser");
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
 if (!currentUser) {
   // Redirect to login page if user data is not available
   window.location.href = ".././html/login.html";
 }
 
-currentUser = JSON.parse(currentUser);
+// Cache frequently used elements
+const greetingElement = document.getElementById("greeting");
+const balanceElement = document.getElementById("balance");
+const recentTransactionsElement = document.getElementById("transactionsList");
+const transferForm = document.getElementById("transferForm");
+const savingsForm = document.getElementById("savingsForm");
 
-// Display the user's last name
-// document.getElementById("lastName").textContent = currentUser.lastName;
-
-// Get the current time
-let currentTime = new Date();
-let currentHour = currentTime.getHours();
-
-// Display a greeting based on the current time
-let greeting;
-if (currentHour < 12) {
-  greeting = "Good morning";
-} else if (currentHour < 18) {
-  greeting = "Good afternoon";
-} else {
-  greeting = "Good evening";
-}
-document.getElementById("greeting").textContent =
-  greeting + " " + currentUser.lastName + "!";
+// Display the user's last name and greeting based on the current time
+const currentHour = new Date().getHours();
+const greeting = currentHour < 12 ? "Good morning" : currentHour < 18 ? "Good afternoon" : "Good evening";
+greetingElement.textContent = `${greeting} ${currentUser.lastName}!`;
 
 // Display the user's balance
-document.getElementById("balance").textContent = currentUser.balance.toFixed(2);
-
-// Recent Transactions
-let recentTransactionsElement = document.getElementById("transactionsList");
+balanceElement.textContent = currentUser.balance.toFixed(2);
 
 // Function to add a transaction to the recent transactions list
 function addTransactionToRecent(transType, transAmount, transUser) {
-  let transactionItem = document.createElement("li");
-  let transactionText =
+  const transactionText =
     transType === "Sent"
-      ? "Sent " + Math.abs(transAmount).toFixed(2) + " to " + transUser
-      : "Received " + Math.abs(transAmount).toFixed(2) + " from " + transUser;
+      ? `Sent ${Math.abs(transAmount).toFixed(2)} to ${transUser}`
+      : `Received ${Math.abs(transAmount).toFixed(2)} from ${transUser}`;
+
+  const transactionItem = document.createElement("li");
   transactionItem.textContent = transactionText;
   recentTransactionsElement.appendChild(transactionItem);
 
@@ -49,13 +39,12 @@ function addTransactionToRecent(transType, transAmount, transUser) {
 }
 
 // Add event listener to the transfer form submission
-let transferForm = document.getElementById("transferForm");
 transferForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
   // Get the transfer amount
-  let transferAmountInput = document.getElementById("transferAmount");
-  let transferAmount = parseFloat(transferAmountInput.value.trim());
+  const transferAmountInput = document.getElementById("transferAmount");
+  const transferAmount = parseFloat(transferAmountInput.value.trim());
 
   if (isNaN(transferAmount) || transferAmount <= 0) {
     alert("Please enter a valid transfer amount.");
@@ -68,19 +57,16 @@ transferForm.addEventListener("submit", function (e) {
   }
 
   // Get the registered users from storage
-  let registeredUsers =
-    JSON.parse(localStorage.getItem("registeredUsers")) || [];
+  const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
 
   // Prompt user to select recipient
-  let recipientAccount = prompt("Enter recipient's Account number:");
+  const recipientAccount = prompt("Enter recipient's Account number:");
   if (!recipientAccount) {
     return;
   }
 
   // Find the recipient in the registered users
-  let recipientUser = registeredUsers.find(function (user) {
-    return user.accountNumber === recipientAccount;
-  });
+  const recipientUser = registeredUsers.find(user => user.accountNumber === recipientAccount);
 
   if (!recipientUser) {
     alert("Recipient not found.");
@@ -92,34 +78,27 @@ transferForm.addEventListener("submit", function (e) {
   recipientUser.balance += transferAmount;
 
   // Add transaction details to the current user's transaction history
-  let transType = transferAmount > 0 ? "Sent" : "Received";
-  let transaction = {
+  const transType = transferAmount > 0 ? "Sent" : "Received";
+  const transaction = {
     type: transType,
     amount: transferAmount,
-    user: recipientUser.firstName + " " + recipientUser.lastName,
+    user: `${recipientUser.firstName} ${recipientUser.lastName}`,
   };
   currentUser.transactions = currentUser.transactions || [];
-//   currentUser.transactions.push(transaction);
-currentUser.transactions.unshift(transaction);
-
+  currentUser.transactions.unshift(transaction);
 
   // Add transaction details to the recipient user's transaction history
-  let recipientTransaction = {
+  const recipientTransaction = {
     type: transType === "Sent" ? "Received" : "Sent",
     amount: Math.abs(transferAmount),
-    user: currentUser.firstName + " " + currentUser.lastName,
+    user: `${currentUser.firstName} ${currentUser.lastName}`,
   };
   recipientUser.transactions = recipientUser.transactions || [];
   recipientUser.transactions.unshift(recipientTransaction);
 
   // Find the index of the current user and recipient user in the registered users list
-  let currentUserIndex = registeredUsers.findIndex(function (user) {
-    return user.accountNumber === currentUser.accountNumber;
-  });
-
-  let recipientUserIndex = registeredUsers.findIndex(function (user) {
-    return user.accountNumber === recipientUser.accountNumber;
-  });
+  const currentUserIndex = registeredUsers.findIndex(user => user.accountNumber === currentUser.accountNumber);
+  const recipientUserIndex = registeredUsers.findIndex(user => user.accountNumber === recipientUser.accountNumber);
 
   // Update the current user's balance in the registered users list
   registeredUsers[currentUserIndex].balance = currentUser.balance;
@@ -134,8 +113,7 @@ currentUser.transactions.unshift(transaction);
   localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
 
   // Update the balance displayed in the UI
-  document.getElementById("balance").textContent =
-    currentUser.balance.toFixed(2);
+  balanceElement.textContent = currentUser.balance.toFixed(2);
 
   // Clear the transfer amount input field
   transferAmountInput.value = "";
@@ -143,23 +121,19 @@ currentUser.transactions.unshift(transaction);
   alert(`Transfer of #${transferAmount.toFixed(2)} successful.`);
 
   // Add transaction details to recent transactions list
-  transType = transferAmount > 0 ? "Sent" : "Received";
-  let transUser = recipientUser.firstName + " " + recipientUser.lastName;
-  addTransactionToRecent(transType, transferAmount, transUser);
+  addTransactionToRecent(transType, transferAmount, `${recipientUser.firstName} ${recipientUser.lastName}`);
 });
 
 // Add event listener to the savings form submission
-let savingsForm = document.getElementById("savingsForm");
 savingsForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
   // Get the registered users from storage
-  let registeredUsers =
-    JSON.parse(localStorage.getItem("registeredUsers")) || [];
+  const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
 
   // Get the savings amount
-  let savingsAmountInput = document.getElementById("savingsAmount");
-  let savingsAmount = parseFloat(savingsAmountInput.value.trim());
+  const savingsAmountInput = document.getElementById("savingsAmount");
+  const savingsAmount = parseFloat(savingsAmountInput.value.trim());
 
   if (isNaN(savingsAmount) || savingsAmount <= 0) {
     alert("Please enter a valid savings amount.");
@@ -173,24 +147,19 @@ savingsForm.addEventListener("submit", function (e) {
 
   // Update the balance and savings amount for the current user
   currentUser.balance -= savingsAmount;
-  currentUser.savings = currentUser.savings
-    ? currentUser.savings + savingsAmount
-    : savingsAmount;
+  currentUser.savings = currentUser.savings ? currentUser.savings + savingsAmount : savingsAmount;
 
   // Add transaction details to the current user's transaction history
-  let transaction = {
+  const transaction = {
     type: "Saved",
     amount: -savingsAmount,
     user: "Savings",
   };
   currentUser.transactions = currentUser.transactions || [];
-//   currentUser.transactions.push(transaction);
-currentUser.transactions.unshift(transaction);
+  currentUser.transactions.unshift(transaction);
 
   // Find the index of the current user in the registered users list
-  let currentUserIndex = registeredUsers.findIndex(function (user) {
-    return user.accountNumber === currentUser.accountNumber;
-  });
+  const currentUserIndex = registeredUsers.findIndex(user => user.accountNumber === currentUser.accountNumber);
 
   // Update the current user's balance and savings amount in the registered users list
   registeredUsers[currentUserIndex].balance = currentUser.balance;
@@ -202,8 +171,7 @@ currentUser.transactions.unshift(transaction);
   localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
 
   // Update the balance displayed in the UI
-  document.getElementById("balance").textContent =
-    currentUser.balance.toFixed(2);
+  balanceElement.textContent = currentUser.balance.toFixed(2);
 
   // Clear the savings amount input field
   savingsAmountInput.value = "";
@@ -215,37 +183,20 @@ currentUser.transactions.unshift(transaction);
 });
 
 // Display the user's transactions
-let transactionsList = document.getElementById("transactionsList");
+transactionsList.innerHTML = currentUser.transactions
+  .slice(-10)
+  .map(transaction => {
+    let direction;
+    let amount = Math.abs(transaction.amount);
 
-// Clear any existing transactions
-transactionsList.innerHTML = "";
+    if (transaction.type === "Sent") {
+      direction = "to";
+    } else if (transaction.type === "Saved") {
+      direction = "to";
+    } else {
+      direction = "from";
+    }
 
-// Determine the starting index based on the number of transactions and limit to the last 10
-let startIndex = Math.max(0, currentUser.transactions.length - 20);
-
-// Iterate through the user's transactions starting from the determined index
-for (let i = startIndex; i < currentUser.transactions.length; i++) {
-  let transaction = currentUser.transactions[i];
-
-  // Create a list item for the transaction
-  let listItem = document.createElement("li");
-
-  // Determine the transaction direction based on the transaction type
-  let direction;
-  if (transaction.type === "Sent") {
-    direction = "to";
-  } else if (transaction.type === "Saved") {
-    direction = "to";
-    transaction.amount = Math.abs(transaction.amount);
-  } else {
-    direction = "from";
-    transaction.amount = Math.abs(transaction.amount);
-  }
-
-  // Set the text content of the list item
-  listItem.textContent = `${transaction.type}: ${transaction.amount.toFixed(2)} ${direction} ${transaction.user}`;
-
-  // Add the list item to the transactions list
-  transactionsList.appendChild(listItem);
-}
-
+    return `<li>${transaction.type}: ${amount.toFixed(2)} ${direction} ${transaction.user}</li>`;
+  })
+  .join("");
