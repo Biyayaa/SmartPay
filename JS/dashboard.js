@@ -9,6 +9,7 @@ if (!currentUser) {
 // Cache frequently used elements
 const greetingElement = document.getElementById("greeting");
 const balanceElement = document.getElementById("balance");
+const savingsElement = document.getElementById("savi");
 const recentTransactionsElement = document.getElementById("transactionsList");
 const transferForm = document.getElementById("transferForm");
 const savingsForm = document.getElementById("savingsForm");
@@ -21,14 +22,21 @@ greetingElement.textContent = `${greeting} ${currentUser.lastName}!`;
 // Display the user's balance
 balanceElement.textContent = currentUser.balance.toFixed(2);
 
+// Display the user's savings
+savingsElement.textContent = currentUser.savings.toFixed(2);
+
 // Function to add a transaction to the recent transactions list
 function addTransactionToRecent(transType, transAmount, transUser) {
-  const transactionText =
-    transType === "Sent"
-      ? `Sent ${Math.abs(transAmount).toFixed(2)} to ${transUser}`
-      : `Received ${Math.abs(transAmount).toFixed(2)} from ${transUser}`;
+  let transactionText;
+  if (transType === "Sent") {
+    transactionText = `Sent ${Math.abs(transAmount).toFixed(2)} to ${transUser}`;
+  } else if (transType === "Saved") {
+    transactionText = `Moved ${Math.abs(transAmount).toFixed(2)} to Savings`;
+  } else {
+    transactionText = `Received ${Math.abs(transAmount).toFixed(2)} from ${transUser}`;
+  }
 
-  const transactionItem = document.createElement("li");
+  let transactionItem = document.createElement("li");
   transactionItem.textContent = transactionText;
   recentTransactionsElement.appendChild(transactionItem);
 
@@ -70,6 +78,15 @@ transferForm.addEventListener("submit", function (e) {
 
   if (!recipientUser) {
     alert("Recipient not found.");
+    return;
+  }
+
+  // Get the PIN input value
+  let pin = prompt("Enter your transaction pin:");
+//   pin = pinInput.value.trim();
+
+  if (pin !== currentUser.pin) {
+    alert("Incorrect PIN.");
     return;
   }
 
@@ -173,6 +190,9 @@ savingsForm.addEventListener("submit", function (e) {
   // Update the balance displayed in the UI
   balanceElement.textContent = currentUser.balance.toFixed(2);
 
+  // Update the savings displayed in the UI
+  savingsElement.textContent = currentUser.savings.toFixed(2);
+
   // Clear the savings amount input field
   savingsAmountInput.value = "";
 
@@ -187,16 +207,20 @@ transactionsList.innerHTML = currentUser.transactions
   .slice(-10)
   .map(transaction => {
     let direction;
-    let amount = Math.abs(transaction.amount);
+    let amount;
 
     if (transaction.type === "Sent") {
       direction = "to";
+      amount = Math.abs(transaction.amount);
     } else if (transaction.type === "Saved") {
       direction = "to";
+      amount = Math.abs(transaction.amount);
+      return `<li>Moved ${amount.toFixed(2)} to Savings</li>`;
     } else {
       direction = "from";
+      amount = Math.abs(transaction.amount);
     }
 
-    return `<li>${transaction.type}: ${amount.toFixed(2)} ${direction} ${transaction.user}</li>`;
+    return `<li>${transaction.type} ${amount.toFixed(2)} ${direction} ${transaction.user}</li>`;
   })
   .join("");
