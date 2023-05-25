@@ -24,27 +24,26 @@ balanceElement.textContent = currentUser.balance.toFixed(2);
 
 // Display the user's savings
 savingsElement.textContent = currentUser.savings.toFixed(2);
-
+const transactionDateTime = new Date();
 // Function to add a transaction to the recent transactions list
 function addTransactionToRecent(transType, transAmount, transUser) {
-  let transactionText;
-  if (transType === "Sent") {
-    transactionText = `Sent ${Math.abs(transAmount).toFixed(2)} to ${transUser}`;
-  } else if (transType === "Saved") {
-    transactionText = `Moved ${Math.abs(transAmount).toFixed(2)} to Savings`;
-  } else {
-    transactionText = `Received ${Math.abs(transAmount).toFixed(2)} from ${transUser}`;
+    let transactionText;
+    const transactionDate = transactionDateTime.toLocaleDateString("en-US", { day: "numeric", month: "long", year: "numeric" });
+    const transactionTime = new Date().toLocaleTimeString();
+  
+    if (transType === "Sent") {
+      transactionText = `Sent ${Math.abs(transAmount).toFixed(2)} to ${transUser} on ${transactionDate} at ${transactionTime}`;
+    } else if (transType === "Saved") {
+      transactionText = `Moved ${Math.abs(transAmount).toFixed(2)} to Savings on ${transactionDate} at ${transactionTime}`;
+    } else {
+      transactionText = `Received ${Math.abs(transAmount).toFixed(2)} from ${transUser} on ${transactionDate} at ${transactionTime}`;
+    }
+  
+    let transactionItem = document.createElement("li");
+    transactionItem.textContent = transactionText;
+    recentTransactionsElement.insertBefore(transactionItem, recentTransactionsElement.firstChild);
   }
-
-  let transactionItem = document.createElement("li");
-  transactionItem.textContent = transactionText;
-  recentTransactionsElement.appendChild(transactionItem);
-
-  // Keep the list limited to the last 10 transactions
-  if (recentTransactionsElement.children.length > 10) {
-    recentTransactionsElement.removeChild(recentTransactionsElement.firstChild);
-  }
-}
+  
 
 // Add event listener to the transfer form submission
 transferForm.addEventListener("submit", function (e) {
@@ -100,6 +99,7 @@ transferForm.addEventListener("submit", function (e) {
     type: transType,
     amount: transferAmount,
     user: `${recipientUser.firstName} ${recipientUser.lastName}`,
+    date: transactionDateTime.toLocaleString()
   };
   currentUser.transactions = currentUser.transactions || [];
   currentUser.transactions.unshift(transaction);
@@ -109,6 +109,7 @@ transferForm.addEventListener("submit", function (e) {
     type: transType === "Sent" ? "Received" : "Sent",
     amount: Math.abs(transferAmount),
     user: `${currentUser.firstName} ${currentUser.lastName}`,
+    date: transactionDateTime.toLocaleString()
   };
   recipientUser.transactions = recipientUser.transactions || [];
   recipientUser.transactions.unshift(recipientTransaction);
@@ -171,6 +172,7 @@ savingsForm.addEventListener("submit", function (e) {
     type: "Saved",
     amount: -savingsAmount,
     user: "Savings",
+    date: transactionDateTime.toLocaleString()
   };
   currentUser.transactions = currentUser.transactions || [];
   currentUser.transactions.unshift(transaction);
@@ -204,7 +206,7 @@ savingsForm.addEventListener("submit", function (e) {
 
 // Display the user's transactions
 transactionsList.innerHTML = currentUser.transactions
-  .slice(-10)
+  .slice(0, 20)
   .map(transaction => {
     let direction;
     let amount;
@@ -215,12 +217,13 @@ transactionsList.innerHTML = currentUser.transactions
     } else if (transaction.type === "Saved") {
       direction = "to";
       amount = Math.abs(transaction.amount);
-      return `<li>Moved ${amount.toFixed(2)} to Savings</li>`;
+      return `<li>Moved ${amount.toFixed(2)} to Savings on ${transaction.date}</li>`;
     } else {
       direction = "from";
       amount = Math.abs(transaction.amount);
     }
 
-    return `<li>${transaction.type} ${amount.toFixed(2)} ${direction} ${transaction.user}</li>`;
+    return `<li>${transaction.type} ${amount.toFixed(2)} ${direction} ${transaction.user} on ${transaction.date}</li>`;
   })
   .join("");
+
