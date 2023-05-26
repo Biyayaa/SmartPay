@@ -342,17 +342,20 @@ function displayRequestDetails(request) {
       currentUser.balance -= request.amount;
       requesterUser.balance += request.amount;
 
-       // Remove the accepted request from currentUser's requests
-  const acceptedRequestIndex = currentUser.requests.findIndex(
-    (req) => req.recipientEmail === currentUser.email && req.sender === request.sender && req.amount === request.amount
-  );
-  currentUser.requests.splice(acceptedRequestIndex, 1);
+      // Remove the accepted request from currentUser's requests
+      const acceptedRequestIndex = currentUser.requests.findIndex(
+        (req) =>
+          req.recipientEmail === currentUser.email &&
+          req.sender === request.sender &&
+          req.amount === request.amount
+      );
+      currentUser.requests.splice(acceptedRequestIndex, 1);
 
-        // Update currentUser's balance in registeredUsers array
-  const currentUserIndex = registeredUsers.findIndex(
-    (user) => user.email === currentUser.email
-  );
-  registeredUsers[currentUserIndex].balance = currentUser.balance;
+      // Update currentUser's balance in registeredUsers array
+      const currentUserIndex = registeredUsers.findIndex(
+        (user) => user.email === currentUser.email
+      );
+      registeredUsers[currentUserIndex].balance = currentUser.balance;
 
       // Save the updated user objects to local storage
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
