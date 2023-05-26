@@ -59,6 +59,7 @@ function signUp(ev) {
     balance: 10000.0,
     pin: null,
     displayName: null,
+    savings: 0,
   };
   registeredUsers.push(newUser);
 
