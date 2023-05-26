@@ -238,7 +238,6 @@ savingsForm.addEventListener("submit", function (e) {
   addTransactionToRecent("Saved", -savingsAmount, "Savings");
 });
 
-
 const requestForm = document.getElementById("requestForm");
 // Add event listener to the request form submission
 requestForm.addEventListener("submit", function (e) {
@@ -291,7 +290,7 @@ requestForm.addEventListener("submit", function (e) {
 
   // Show the request details only on the recipient's account
   if (currentUser.email === recipientEmail) {
-    displayRequestDetails(request);
+    displayRequestDetails(request, 0);
   }
 });
 
@@ -309,54 +308,67 @@ function displayRequestDetails(request) {
   const rejectButton = document.createElement("button");
   rejectButton.textContent = "Reject";
 
- // Add event listener to the accept button
-acceptButton.addEventListener("click", function () {
+  // Add event listener to the accept button
+  acceptButton.addEventListener("click", function () {
     const confirmAccept = confirm(
-      `Are you sure you want to send ${request.amount.toFixed(2)} to ${request.sender}?`
+      `Are you sure you want to send ${request.amount.toFixed(2)} to ${
+        request.sender
+      }?`
     );
-  
+
     if (confirmAccept) {
       const pin = prompt("Enter your transaction pin:");
-  
+
       if (pin !== currentUser.pin) {
         alert("Incorrect PIN.");
         return;
       }
-  
+
       // Get the registered users from storage
       const registeredUsers =
         JSON.parse(localStorage.getItem("registeredUsers")) || [];
-  
-    // Find the user who made the request
-    const requesterUser = registeredUsers.find(
+
+      // Find the user who made the request
+      const requesterUser = registeredUsers.find(
         (user) => `${user.firstName} ${user.lastName}` === request.sender
       );
-  
+
       if (!requesterUser) {
         alert("Requester not found.");
         return;
       }
-  
+
       // Update balances for the recipient and current user
       currentUser.balance -= request.amount;
       requesterUser.balance += request.amount;
-  
+
+       // Remove the accepted request from currentUser's requests
+  const acceptedRequestIndex = currentUser.requests.findIndex(
+    (req) => req.recipientEmail === currentUser.email && req.sender === request.sender && req.amount === request.amount
+  );
+  currentUser.requests.splice(acceptedRequestIndex, 1);
+
+        // Update currentUser's balance in registeredUsers array
+  const currentUserIndex = registeredUsers.findIndex(
+    (user) => user.email === currentUser.email
+  );
+  registeredUsers[currentUserIndex].balance = currentUser.balance;
+
       // Save the updated user objects to local storage
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
       localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
-  
+
       // Remove the request details element and buttons
       requestDetailsElement.remove();
       acceptButton.remove();
       rejectButton.remove();
-  
+
       // Update the balance displayed in the UI
       balanceElement.textContent = currentUser.balance.toFixed(2);
-  
+
       alert(`Request accepted. Amount sent to ${request.sender}.`);
     }
   });
-  
 
   // Append the request details and buttons to the recipient's section
   const recipientSection = document.getElementById("recipientSection");
