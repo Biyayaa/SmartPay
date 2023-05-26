@@ -22,7 +22,7 @@ const greeting =
     : currentHour < 18
     ? "Good afternoon"
     : "Good evening";
-greetingElement.textContent = `${greeting} ${currentUser.lastName}!`;
+greetingElement.textContent = `${greeting}, ${currentUser.lastName}!`;
 
 // Display the user's balance
 balanceElement.textContent = currentUser.balance.toFixed(2);
