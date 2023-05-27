@@ -10,6 +10,7 @@ if (!currentUser) {
 const greetingElement = document.getElementById("greeting");
 const balanceElement = document.getElementById("balance");
 const savingsElement = document.getElementById("savi");
+const netWorthElement = document.getElementById("netWorth");
 const recentTransactionsElement = document.getElementById("transactionsList");
 const transferForm = document.getElementById("transferForm");
 const savingsForm = document.getElementById("savingsForm");
@@ -29,6 +30,15 @@ balanceElement.textContent = currentUser.balance.toFixed(2);
 
 // Display the user's savings
 savingsElement.textContent = currentUser.savings.toFixed(2);
+
+// Function to update the net worth displayed in the UI
+function updateNetWorth() {
+    const netWorth = currentUser.balance + currentUser.savings;
+    netWorthElement.textContent = netWorth.toFixed(2);
+  }
+  
+  // Update the net worth when the page loads
+  updateNetWorth();
 
 const transactionDateTime = new Date();
 const months = [
@@ -163,8 +173,9 @@ transferForm.addEventListener("submit", function (e) {
   localStorage.setItem("currentUser", JSON.stringify(currentUser));
   localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
 
-  // Update the balance displayed in the UI
+  // Update the balance and networth displayed in the UI
   balanceElement.textContent = currentUser.balance.toFixed(2);
+  updateNetWorth();
 
   // Clear the transfer amount input field
   transferAmountInput.value = "";
