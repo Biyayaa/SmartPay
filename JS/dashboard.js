@@ -31,28 +31,36 @@ balanceElement.textContent = currentUser.balance.toFixed(2);
 savingsElement.textContent = currentUser.savings.toFixed(2);
 
 const transactionDateTime = new Date();
+const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  const transactionDate = transactionDateTime.getDate();
+  const transactionMonth = months[transactionDateTime.getMonth()];
+  const transactionYear = transactionDateTime.getFullYear();
+  const transactionTime = new Date().toLocaleTimeString();
 // Function to add a transaction to the recent transactions list
 function addTransactionToRecent(transType, transAmount, transUser) {
   let transactionText;
-  const transactionDate = transactionDateTime.toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  const transactionTime = new Date().toLocaleTimeString();
+//   const transactionDate = transactionDateTime.toLocaleDateString("en-US", {
+//     day: "numeric",
+//     month: "long",
+//     year: "numeric",
+//   });
+//   const transactionTime = new Date().toLocaleTimeString();
 
   if (transType === "Sent") {
     transactionText = `Sent ${Math.abs(transAmount).toFixed(
       2
-    )} to ${transUser} on ${transactionDate} at ${transactionTime}`;
+    )} to ${transUser} on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}`;
   } else if (transType === "Saved") {
     transactionText = `Moved ${Math.abs(transAmount).toFixed(
       2
-    )} to Savings on ${transactionDate} at ${transactionTime}`;
+    )} to Savings on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}`;
   } else {
     transactionText = `Received ${Math.abs(transAmount).toFixed(
       2
-    )} from ${transUser} on ${transactionDate} at ${transactionTime}`;
+    )} from ${transUser} on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}`;
   }
 
   let transactionItem = document.createElement("li");
@@ -88,6 +96,11 @@ transferForm.addEventListener("submit", function (e) {
   // Prompt user to select recipient
   const recipientAccount = prompt("Enter recipient's Account number:");
   if (!recipientAccount) {
+    return;
+  }
+
+  if (recipientAccount === currentUser.accountNumber) {
+    alert("Cannot transfer money to your own account.");
     return;
   }
 
@@ -405,9 +418,7 @@ transactionsList.innerHTML =
           } else if (transaction.type === "Saved") {
             direction = "to";
             amount = Math.abs(transaction.amount);
-            return `<li>Moved ${amount.toFixed(2)} to Savings on ${
-              transaction.date
-            }</li>`;
+            return `<li>Moved ${amount.toFixed(2)} to Savings on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}</li>`;
           } else {
             direction = "from";
             amount = Math.abs(transaction.amount);
@@ -415,7 +426,7 @@ transactionsList.innerHTML =
 
           return `<li>${transaction.type} ${amount.toFixed(2)} ${direction} ${
             transaction.user
-          } on ${transaction.date}</li>`;
+          } on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}</li>`;
         })
         .join("")
     : "No transactions available.";
