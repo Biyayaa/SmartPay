@@ -290,6 +290,11 @@ requestForm.addEventListener("submit", function (e) {
     return;
   }
 
+  if (currentUser.email === recipientEmail) {
+    alert("You cannot request funds from yourself.");
+    return;
+  }
+
   alert("Request made.");
 
   // Create a request object
