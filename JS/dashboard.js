@@ -26,17 +26,16 @@ const greeting =
 greetingElement.textContent = `${greeting}, ${currentUser.lastName}!`;
 
 // Display the user's balance
-balanceElement.textContent = currentUser.balance.toFixed(2);
+balanceElement.textContent = "#" + currentUser.balance.toFixed(2);
 
 // Display the user's savings
-savingsElement.textContent = currentUser.savings.toFixed(2);
+savingsElement.textContent = "#" + currentUser.savings.toFixed(2);
 
 // Function to update the net worth displayed in the UI
 function updateNetWorth() {
     const netWorth = currentUser.balance + currentUser.savings;
-    netWorthElement.textContent = netWorth.toFixed(2);
+    netWorthElement.textContent = "#" + netWorth.toFixed(2);
   }
-  
   // Update the net worth when the page loads
   updateNetWorth();
 
@@ -174,7 +173,7 @@ transferForm.addEventListener("submit", function (e) {
   localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
 
   // Update the balance and networth displayed in the UI
-  balanceElement.textContent = currentUser.balance.toFixed(2);
+  balanceElement.textContent ="#" + currentUser.balance.toFixed(2);
   updateNetWorth();
 
   // Clear the transfer amount input field
@@ -243,10 +242,10 @@ savingsForm.addEventListener("submit", function (e) {
   localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
 
   // Update the balance displayed in the UI
-  balanceElement.textContent = currentUser.balance.toFixed(2);
+  balanceElement.textContent ="#" + currentUser.balance.toFixed(2);
 
   // Update the savings displayed in the UI
-  savingsElement.textContent = currentUser.savings.toFixed(2);
+  savingsElement.textContent ="#" + currentUser.savings.toFixed(2);
 
   // Clear the savings amount input field
   savingsAmountInput.value = "";
@@ -387,7 +386,8 @@ function displayRequestDetails(request) {
       rejectButton.remove();
 
       // Update the balance displayed in the UI
-      balanceElement.textContent = currentUser.balance.toFixed(2);
+      balanceElement.textContent ="#" + currentUser.balance.toFixed(2);
+      updateNetWorth();
 
       alert(`Request accepted. Amount sent to ${request.sender}.`);
     }
