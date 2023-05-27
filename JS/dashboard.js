@@ -39,16 +39,11 @@ const months = [
   const transactionMonth = months[transactionDateTime.getMonth()];
   const transactionYear = transactionDateTime.getFullYear();
   const transactionTime = new Date().toLocaleTimeString();
+
+
 // Function to add a transaction to the recent transactions list
 function addTransactionToRecent(transType, transAmount, transUser) {
   let transactionText;
-//   const transactionDate = transactionDateTime.toLocaleDateString("en-US", {
-//     day: "numeric",
-//     month: "long",
-//     year: "numeric",
-//   });
-//   const transactionTime = new Date().toLocaleTimeString();
-
   if (transType === "Sent") {
     transactionText = `Sent ${Math.abs(transAmount).toFixed(
       2
