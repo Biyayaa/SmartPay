@@ -67,10 +67,10 @@ main {
 /* Card container */
 .card-container {
   display: flex;
-  flex-wrap: nowrap; /* Ensures cards stay in a single row */
-  overflow-x: scroll; /* Enables horizontal scrolling */
-  scroll-snap-type: x mandatory; /* Enables snap-scrolling behavior */
-  padding-bottom: 30px; /* Provides space for the indicator bars */
+  flex-wrap: nowrap;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 30px;
   margin: 30px 0 0 10px;
 }
 
@@ -83,15 +83,14 @@ main {
 .balance-card,
 .savings-card,
 .net-card {
-  flex: 0 0 auto; /* Ensures cards have fixed width */
-  width: 80%; /* Adjust the width as needed */
+  flex: 0 0 auto;
+  width: 80%;
   max-width: 300px;
-  height: 150px; /* Adjust the height as needed */
-  margin-right: 20px; /* Adds spacing between cards */
-  background-color: #f2f2f2; /* Adjust the background color as needed */
-  border-radius: 10px; /* Adds rounded corners */
-  scroll-snap-align: start; /* Aligns cards during scroll snap */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.427); /* Add box shadow */
+  height: 150px;
+  margin-right: 20px;
+  border-radius: 10px;
+  scroll-snap-align: start;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.427);
 }
 
 .balance-card {
@@ -107,18 +106,19 @@ main {
   background-color: black;
 }
 
+/* Action buttons */
 .action-btns-container {
   display: flex;
   flex-wrap: nowrap;
   width: fit-content;
   align-items: center;
-  justify-content: space-between; /* Align buttons to the start */
+  justify-content: space-between;
   margin: auto;
   padding: 10px;
   margin-bottom: 20px;
-  background-color: #ffffff; /* Set background color */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); /* Add box shadow */
-  border-radius: 5px; /* Add rounded corners */
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
 }
 
 .action-btns-container button {
@@ -130,11 +130,11 @@ main {
   font-size: 16px;
   border: none;
   border-radius: 5px;
-  background-color: var(--primary-color); /* Set button background color */
-  color: var(--secondary-color); /* Set button text color */
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin: 0 5px; /* Adds equal spacing between buttons */
+  margin: 0 5px;
 }
 
 .action-btns-container button i {
@@ -142,15 +142,9 @@ main {
 }
 
 .action-btns-container button:hover {
-  background-color: var(
-    --secondary-color
-  ); /* Change button background color on hover */
+  background-color: var(--secondary-color);
   color: var(--primary-color);
 }
-
-
-
-
 
 #balance,
 #savi {

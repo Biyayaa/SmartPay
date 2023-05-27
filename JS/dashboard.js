@@ -351,11 +351,12 @@ function displayRequestDetails(request) {
       );
       currentUser.requests.splice(acceptedRequestIndex, 1);
 
-      // Update currentUser's balance in registeredUsers array
+      // Update currentUser's balance and requests in registeredUsers array
       const currentUserIndex = registeredUsers.findIndex(
         (user) => user.email === currentUser.email
       );
       registeredUsers[currentUserIndex].balance = currentUser.balance;
+      registeredUsers[currentUserIndex].requests = currentUser.requests;
 
       // Save the updated user objects to local storage
       localStorage.setItem("currentUser", JSON.stringify(currentUser));
