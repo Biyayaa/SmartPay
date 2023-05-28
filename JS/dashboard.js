@@ -33,25 +33,35 @@ savingsElement.textContent = "#" + currentUser.savings.toFixed(2);
 
 // Function to update the net worth displayed in the UI
 function updateNetWorth() {
-    const netWorth = currentUser.balance + currentUser.savings;
-    netWorthElement.textContent = "#" + netWorth.toFixed(2);
-  }
-  // Update the net worth when the page loads
-  updateNetWorth();
+  const netWorth = currentUser.balance + currentUser.savings;
+  netWorthElement.textContent = "#" + netWorth.toFixed(2);
+}
+// Update the net worth when the page loads
+updateNetWorth();
 
 const transactionDateTime = new Date();
 const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+// Function to add a transaction to the recent transactions list
+function addTransactionToRecent(transType, transAmount, transUser) {
   const transactionDate = transactionDateTime.getDate();
   const transactionMonth = months[transactionDateTime.getMonth()];
   const transactionYear = transactionDateTime.getFullYear();
   const transactionTime = new Date().toLocaleTimeString();
 
-
-// Function to add a transaction to the recent transactions list
-function addTransactionToRecent(transType, transAmount, transUser) {
   let transactionText;
   if (transType === "Sent") {
     transactionText = `Sent ${Math.abs(transAmount).toFixed(
@@ -173,7 +183,7 @@ transferForm.addEventListener("submit", function (e) {
   localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
 
   // Update the balance and networth displayed in the UI
-  balanceElement.textContent ="#" + currentUser.balance.toFixed(2);
+  balanceElement.textContent = "#" + currentUser.balance.toFixed(2);
   updateNetWorth();
 
   // Clear the transfer amount input field
@@ -242,10 +252,10 @@ savingsForm.addEventListener("submit", function (e) {
   localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
 
   // Update the balance displayed in the UI
-  balanceElement.textContent ="#" + currentUser.balance.toFixed(2);
+  balanceElement.textContent = "#" + currentUser.balance.toFixed(2);
 
   // Update the savings displayed in the UI
-  savingsElement.textContent ="#" + currentUser.savings.toFixed(2);
+  savingsElement.textContent = "#" + currentUser.savings.toFixed(2);
 
   // Clear the savings amount input field
   savingsAmountInput.value = "";
@@ -257,6 +267,16 @@ savingsForm.addEventListener("submit", function (e) {
 });
 
 const requestForm = document.getElementById("requestForm");
+const pendingRequestsElement = document.getElementById("pendingRequests");
+const noticeElement = document.getElementById("notice");
+
+// Load the registered users from storage
+const registeredUsers =
+  JSON.parse(localStorage.getItem("registeredUsers")) || [];
+
+// Update the pending requests count on page load
+updatePendingRequestsCount();
+
 // Add event listener to the request form submission
 requestForm.addEventListener("submit", function (e) {
   e.preventDefault();
@@ -315,7 +335,34 @@ requestForm.addEventListener("submit", function (e) {
   if (currentUser.email === recipientEmail) {
     displayRequestDetails(request, 0);
   }
+
+  // Update the pending requests count after making a request
+  updatePendingRequestsCount();
+
+  // Show or hide the notification based on the number of pending requests
+  if (pendingRequestsElement.textContent > 0) {
+    noticeElement.style.display = "block";
+  } else {
+    noticeElement.style.display = "none";
+  }
 });
+
+function updatePendingRequestsCount() {
+  // Get the number of pending requests for the current user
+  const numPendingRequests = currentUser.requests
+    ? currentUser.requests.length
+    : 0;
+
+  // Update the pending requests count in the DOM
+  pendingRequestsElement.textContent = numPendingRequests;
+
+  // Show or hide the notification based on the number of pending requests
+  if (pendingRequestsElement.textContent > 0) {
+    noticeElement.style.display = "block";
+  } else {
+    noticeElement.style.display = "none";
+  }
+}
 
 // Display request details for the recipient user
 function displayRequestDetails(request) {
@@ -391,10 +438,13 @@ function displayRequestDetails(request) {
       rejectButton.remove();
 
       // Update the balance displayed in the UI
-      balanceElement.textContent ="#" + currentUser.balance.toFixed(2);
+      balanceElement.textContent = "#" + currentUser.balance.toFixed(2);
       updateNetWorth();
 
       alert(`Request accepted. Amount sent to ${request.sender}.`);
+
+      // Update the pending requests count after making a request
+      updatePendingRequestsCount();
     }
   });
 
@@ -420,6 +470,12 @@ transactionsList.innerHTML =
   currentUser.transactions && currentUser.transactions.length > 0
     ? currentUser.transactions
         .map((transaction) => {
+          const transactionDateTime = new Date(transaction.date);
+          const transactionDate = transactionDateTime.getDate();
+          const transactionMonth = months[transactionDateTime.getMonth()];
+          const transactionYear = transactionDateTime.getFullYear();
+          const transactionTime = transactionDateTime.toLocaleTimeString();
+
           let direction;
           let amount;
 
@@ -429,7 +485,9 @@ transactionsList.innerHTML =
           } else if (transaction.type === "Saved") {
             direction = "to";
             amount = Math.abs(transaction.amount);
-            return `<li>Moved ${amount.toFixed(2)} to Savings on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}</li>`;
+            return `<li>Moved ${amount.toFixed(
+              2
+            )} to Savings on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}</li>`;
           } else {
             direction = "from";
             amount = Math.abs(transaction.amount);
