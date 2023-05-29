@@ -40,41 +40,25 @@ function updateNetWorth() {
 updateNetWorth();
 
 const transactionDateTime = new Date();
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
 
 // Function to add a transaction to the recent transactions list
 function addTransactionToRecent(transType, transAmount, transUser) {
   const transactionDate = transactionDateTime.getDate();
-  const transactionMonth = months[transactionDateTime.getMonth()];
-  const transactionYear = transactionDateTime.getFullYear();
   const transactionTime = new Date().toLocaleTimeString();
 
   let transactionText;
   if (transType === "Sent") {
     transactionText = `Sent ${Math.abs(transAmount).toFixed(
       2
-    )} to ${transUser} on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}`;
+    )} to ${transUser} on ${transactionDateTime.toLocaleString()}`;
   } else if (transType === "Saved") {
     transactionText = `Moved ${Math.abs(transAmount).toFixed(
       2
-    )} to Savings on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}`;
+    )} to Savings on ${transactionDateTime.toLocaleString()}`;
   } else {
     transactionText = `Received ${Math.abs(transAmount).toFixed(
       2
-    )} from ${transUser} on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}`;
+    )} from ${transUser} on ${transactionDateTime.toLocaleString()}`;
   }
 
   let transactionItem = document.createElement("li");
@@ -471,10 +455,6 @@ transactionsList.innerHTML =
     ? currentUser.transactions
         .map((transaction) => {
           const transactionDateTime = new Date(transaction.date);
-          const transactionDate = transactionDateTime.getDate();
-          const transactionMonth = months[transactionDateTime.getMonth()];
-          const transactionYear = transactionDateTime.getFullYear();
-          const transactionTime = transactionDateTime.toLocaleTimeString();
 
           let direction;
           let amount;
@@ -485,9 +465,7 @@ transactionsList.innerHTML =
           } else if (transaction.type === "Saved") {
             direction = "to";
             amount = Math.abs(transaction.amount);
-            return `<li>Moved ${amount.toFixed(
-              2
-            )} to Savings on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}</li>`;
+            return `<li>Moved ${amount.toFixed(2)} to Savings on ${transactionDateTime.toLocaleString()}</li>`;
           } else {
             direction = "from";
             amount = Math.abs(transaction.amount);
@@ -495,7 +473,7 @@ transactionsList.innerHTML =
 
           return `<li>${transaction.type} ${amount.toFixed(2)} ${direction} ${
             transaction.user
-          } on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}</li>`;
+          } on ${transactionDateTime.toLocaleString()}</li>`;
         })
         .join("")
     : "No transactions available.";
