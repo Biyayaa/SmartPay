@@ -40,24 +40,41 @@ function updateNetWorth() {
 updateNetWorth();
 
 const transactionDateTime = new Date();
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 // Function to add a transaction to the recent transactions list
 function addTransactionToRecent(transType, transAmount, transUser) {
-  
+  const transactionDate = transactionDateTime.getDate();
+  const transactionMonth = months[transactionDateTime.getMonth()];
+  const transactionYear = transactionDateTime.getFullYear();
+  const transactionTime = new Date().toLocaleTimeString();
 
   let transactionText;
   if (transType === "Sent") {
     transactionText = `Sent ${Math.abs(transAmount).toFixed(
       2
-    )} to ${transUser} on ${transactionDateTime.toLocaleString()}`;
+    )} to ${transUser} on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}`;
   } else if (transType === "Saved") {
     transactionText = `Moved ${Math.abs(transAmount).toFixed(
       2
-    )} to Savings on ${transactionDateTime.toLocaleString()}`;
+    )} to Savings on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}`;
   } else {
     transactionText = `Received ${Math.abs(transAmount).toFixed(
       2
-    )} from ${transUser} on ${transactionDateTime.toLocaleString()}`;
+    )} from ${transUser} on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}`;
   }
 
   let transactionItem = document.createElement("li");
@@ -448,18 +465,16 @@ if (currentUser.requests && currentUser.requests.length > 0) {
   });
 }
 
+// Display the user's transactions
 transactionsList.innerHTML =
   currentUser.transactions && currentUser.transactions.length > 0
     ? currentUser.transactions
         .map((transaction) => {
-          let transactionDateTime;
-          if (typeof transaction.date === 'string') {
-            transactionDateTime = new Date(transaction.date);
-          } else if (typeof transaction.date === 'number') {
-            transactionDateTime = new Date(transaction.date);
-          } else {
-            return `<li>Invalid date format for transaction</li>`;
-          }
+          const transactionDateTime = new Date(transaction.date);
+          const transactionDate = transactionDateTime.getDate();
+          const transactionMonth = months[transactionDateTime.getMonth()];
+          const transactionYear = transactionDateTime.getFullYear();
+          const transactionTime = transactionDateTime.toLocaleTimeString();
 
           let direction;
           let amount;
@@ -470,7 +485,9 @@ transactionsList.innerHTML =
           } else if (transaction.type === "Saved") {
             direction = "to";
             amount = Math.abs(transaction.amount);
-            return `<li>Moved ${amount.toFixed(2)} to Savings on ${transactionDateTime.toLocaleString()}</li>`;
+            return `<li>Moved ${amount.toFixed(
+              2
+            )} to Savings on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}</li>`;
           } else {
             direction = "from";
             amount = Math.abs(transaction.amount);
@@ -478,8 +495,7 @@ transactionsList.innerHTML =
 
           return `<li>${transaction.type} ${amount.toFixed(2)} ${direction} ${
             transaction.user
-          } on ${transactionDateTime.toLocaleString()}</li>`;
+          } on ${transactionMonth} ${transactionDate}, ${transactionYear} at ${transactionTime}</li>`;
         })
         .join("")
     : "No transactions available.";
-
