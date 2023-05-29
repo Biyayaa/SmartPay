@@ -43,8 +43,7 @@ const transactionDateTime = new Date();
 
 // Function to add a transaction to the recent transactions list
 function addTransactionToRecent(transType, transAmount, transUser) {
-  const transactionDate = transactionDateTime.getDate();
-  const transactionTime = new Date().toLocaleTimeString();
+  
 
   let transactionText;
   if (transType === "Sent") {
@@ -449,12 +448,18 @@ if (currentUser.requests && currentUser.requests.length > 0) {
   });
 }
 
-// Display the user's transactions
 transactionsList.innerHTML =
   currentUser.transactions && currentUser.transactions.length > 0
     ? currentUser.transactions
         .map((transaction) => {
-          const transactionDateTime = new Date(transaction.date);
+          let transactionDateTime;
+          if (typeof transaction.date === 'string') {
+            transactionDateTime = new Date(transaction.date);
+          } else if (typeof transaction.date === 'number') {
+            transactionDateTime = new Date(transaction.date);
+          } else {
+            return `<li>Invalid date format for transaction</li>`;
+          }
 
           let direction;
           let amount;
@@ -477,3 +482,4 @@ transactionsList.innerHTML =
         })
         .join("")
     : "No transactions available.";
+
