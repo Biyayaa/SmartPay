@@ -15,6 +15,52 @@ const recentTransactionsElement = document.getElementById("transactionsList");
 const transferForm = document.getElementById("transferForm");
 const savingsForm = document.getElementById("savingsForm");
 
+
+
+const aviElement = document.getElementById("avi");
+
+if (currentUser && currentUser.avatar) {
+    aviElement.style.backgroundImage = `url(${currentUser.avatar})`;
+  }
+  
+aviElement.addEventListener("click", function () {
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = "image/*";
+
+  fileInput.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+      const imageDataURL = reader.result;
+
+      // Save the avatar to local storage for the current user
+      currentUser.avatar = imageDataURL;
+      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+      // Update the avatar in the registered users' data
+      const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
+      const userIndex = registeredUsers.findIndex((user) => user.email === currentUser.email);
+      if (userIndex !== -1) {
+        registeredUsers[userIndex].avatar = imageDataURL;
+        localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
+      }
+
+      aviElement.style.backgroundImage = `url(${imageDataURL})`;
+    });
+
+    reader.readAsDataURL(file);
+  });
+
+  fileInput.click();
+});
+
+
+
+
+
+
 // Display the user's last name and greeting based on the current time
 const currentHour = new Date().getHours();
 const greeting =
