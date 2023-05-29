@@ -31,7 +31,14 @@ main {
   align-items: center;
 }
 
+#defaultAvi{
+    display: none;
+}
+
 #avi {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   background-color: var(--primary-color);
   background-position: center;
   background-size: cover;

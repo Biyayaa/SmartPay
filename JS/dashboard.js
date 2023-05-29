@@ -18,10 +18,15 @@ const savingsForm = document.getElementById("savingsForm");
 
 
 const aviElement = document.getElementById("avi");
+const defaultAvi = document.getElementById("defaultAvi");
 
 if (currentUser && currentUser.avatar) {
     aviElement.style.backgroundImage = `url(${currentUser.avatar})`;
   }
+  else{
+    defaultAvi.style.display = "block";
+  }
+
   
 aviElement.addEventListener("click", function () {
   const fileInput = document.createElement("input");
