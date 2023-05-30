@@ -550,3 +550,16 @@ transactionsList.innerHTML =
         })
         .join("")
     : "No transactions available.";
+
+
+    window.addEventListener('DOMContentLoaded', function() {
+        const homeNavItem = document.getElementById('home');
+        homeNavItem.classList.add('active');
+      });
+
+
+
+
+
+
+
