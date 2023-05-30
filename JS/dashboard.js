@@ -53,6 +53,9 @@ aviElement.addEventListener("click", function () {
       }
 
       aviElement.style.backgroundImage = `url(${imageDataURL})`;
+
+    //   Reload the page
+    location.reload();
     });
 
     reader.readAsDataURL(file);
