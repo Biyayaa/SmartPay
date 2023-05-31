@@ -14,19 +14,23 @@
     <main>
 
         <div class="top">
-            <div class="profile-greeting">
-                <div id="avi">
+            <div class="profile-greeting" id="profileGreeting">
+                <div id="pp">
                     <i class="fa-solid fa-user fa-xl" id="defaultAvi"></i>
                 </div>
                 <h1 id="greeting"></h1>
             </div>
 
-            <div class="notification">
+            <div class="notification" id="notifications">
                 <i class="fa-solid fa-bell"></i>
                 <div id="notice">
-                     <span id="pendingRequests"></span>
+                    <span id="pendingRequests"></span>
                 </div>
             </div>
+        </div>
+
+        <div class="user-details" id="userDetails">
+            <!-- User details content goes here -->
         </div>
 
         <div class="card-container">
@@ -85,7 +89,7 @@
                     <i class="fa-solid fa-piggy-bank fa-2xl"></i>
                 </div>
                 <p>Save Funds</p>
-            </button>        
+            </button>
         </div>
 
         <p>Other Actions</p>
@@ -111,7 +115,7 @@
                 </div>
                 <p>Bet9ja</p>
             </button>
-            
+
             <button>
                 <div>
                     <i class="fa-solid fa-ticket-simple fa-2xl"></i>
@@ -136,14 +140,14 @@
                 </div>
                 <p>Data Purchase</p>
             </button>
-            
+
             <button>
                 <div>
                     <i class="fa-solid fa-rotate fa-2xl"></i>
                 </div>
                 <p>Transaction History</p>
             </button>
-            
+
             <button>
                 <div>
                     <i class="fa-solid fa-mobile-button fa-2xl"></i>
@@ -151,14 +155,6 @@
                 <p>Buy Airtime</p>
             </button>
         </div>
-
-
-
-
-
-        
-        
-
 
 
         <!-- Add a form for transferring amount -->
@@ -194,25 +190,25 @@
         <div id="recipientSection"></div>
 
 
-        
-        
+
+
     </main>
 
     <div class="bottom-navbar">
         <a href="dashboard.html" class="nav-item active" id="home">
-          <i class="fas fa-home"></i>
-          <span>Home</span>
+            <i class="fas fa-home"></i>
+            <span>Home</span>
         </a>
         <a href="card.html" class="nav-item" id="card">
-          <i class="fas fa-credit-card"></i>
-          <span>Card</span>
+            <i class="fas fa-credit-card"></i>
+            <span>Card</span>
         </a>
         <a href="#" class="nav-item" id="settings">
-          <i class="fas fa-cog"></i>
-          <span>Settings</span>
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
         </a>
     </div>
-      
+
 
     <script src="../JS/dashboard.js"></script>
     <script src="https://kit.fontawesome.com/3d70bd8345.js" crossorigin="anonymous"></script>

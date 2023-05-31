@@ -14,60 +14,95 @@ const netWorthElement = document.getElementById("netWorth");
 const recentTransactionsElement = document.getElementById("transactionsList");
 const transferForm = document.getElementById("transferForm");
 const savingsForm = document.getElementById("savingsForm");
-
-
-
-const aviElement = document.getElementById("avi");
 const defaultAvi = document.getElementById("defaultAvi");
+const profilePic = document.getElementById("pp");
+const profileGreeting = document.getElementById("profileGreeting");
+const userDetails = document.getElementById("userDetails");
 
 if (currentUser && currentUser.avatar) {
+  profilePic.style.backgroundImage = `url(${currentUser.avatar})`;
+} else {
+  defaultAvi.style.display = "block";
+}
+
+profileGreeting.addEventListener("click", function () {
+  userDetails.classList.add("show");
+  userDetails.innerHTML = `
+  <div class="profile-arrow">
+  <i class="fa-solid fa-arrow-left"></i>
+  <h3>My Profile</h3>
+  </div>
+
+  <div class="user-details-content">
+    <div class="user-avatar" id="avi">
+      <img src="${currentUser.avatar}" alt="User Avatar" />
+    </div>
+    <h2>${currentUser.firstName} ${currentUser.lastName}</h2>
+  </div>
+
+  <div class="user-other-details">
+  <p>Account Number: ${currentUser.accountNumber}</p>
+    <p>Phone Number: ${currentUser.phoneNumber}</p>
+    <p>Email Address: ${currentUser.email}</p>  
+  </div>
+  `;
+
+  const aviElement = document.getElementById("avi");
+
+  if (currentUser && currentUser.avatar) {
     aviElement.style.backgroundImage = `url(${currentUser.avatar})`;
-  }
-  else{
+  } else {
     defaultAvi.style.display = "block";
   }
 
-  
-aviElement.addEventListener("click", function () {
-  const fileInput = document.createElement("input");
-  fileInput.type = "file";
-  fileInput.accept = "image/*";
+  aviElement.addEventListener("click", function (event) {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
 
-  fileInput.addEventListener("change", function (event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
+    fileInput.addEventListener("change", function (event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
 
-    reader.addEventListener("load", function () {
-      const imageDataURL = reader.result;
+      reader.addEventListener("load", function () {
+        const imageDataURL = reader.result;
 
-      // Save the avatar to local storage for the current user
-      currentUser.avatar = imageDataURL;
-      localStorage.setItem("currentUser", JSON.stringify(currentUser));
+        // Save the avatar to local storage for the current user
+        currentUser.avatar = imageDataURL;
+        localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
-      // Update the avatar in the registered users' data
-      const registeredUsers = JSON.parse(localStorage.getItem("registeredUsers")) || [];
-      const userIndex = registeredUsers.findIndex((user) => user.email === currentUser.email);
-      if (userIndex !== -1) {
-        registeredUsers[userIndex].avatar = imageDataURL;
-        localStorage.setItem("registeredUsers", JSON.stringify(registeredUsers));
-      }
+        // Update the avatar in the registered users' data
+        const registeredUsers =
+          JSON.parse(localStorage.getItem("registeredUsers")) || [];
+        const userIndex = registeredUsers.findIndex(
+          (user) => user.email === currentUser.email
+        );
+        if (userIndex !== -1) {
+          registeredUsers[userIndex].avatar = imageDataURL;
+          localStorage.setItem(
+            "registeredUsers",
+            JSON.stringify(registeredUsers)
+          );
+        }
 
-      aviElement.style.backgroundImage = `url(${imageDataURL})`;
+        aviElement.style.backgroundImage = `url(${imageDataURL})`;
 
-    //   Reload the page
-    location.reload();
+        //   Reload the page
+        location.reload();
+      });
+
+      reader.readAsDataURL(file);
     });
 
-    reader.readAsDataURL(file);
-  });
+    event.stopPropagation();
 
-  fileInput.click();
+    fileInput.click();
+  });
 });
 
-
-
-
-
+userDetails.addEventListener("click", function () {
+  userDetails.classList.remove("show");
+});
 
 // Display the user's last name and greeting based on the current time
 const currentHour = new Date().getHours();
@@ -554,15 +589,7 @@ transactionsList.innerHTML =
         .join("")
     : "No transactions available.";
 
-
-    window.addEventListener('DOMContentLoaded', function() {
-        const homeNavItem = document.getElementById('home');
-        homeNavItem.classList.add('active');
-      });
-
-
-
-
-
-
-
+window.addEventListener("DOMContentLoaded", function () {
+  const homeNavItem = document.getElementById("home");
+  homeNavItem.classList.add("active");
+});
