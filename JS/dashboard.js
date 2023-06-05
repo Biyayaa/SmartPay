@@ -456,11 +456,10 @@ function updatePendingRequestsCount() {
 
 const modal = document.getElementById("modal");
 const modalContent = document.querySelector(".modal-content");
-const closeBtn = document.querySelector(".close");
+// const closeBtn = document.getElementById("close");
 
 // Display request details for the recipient user
 function displayRequestDetailsModal(request) {
-
   // Create a paragraph element to display the request details for the recipient
   const requestDetailsElement = document.createElement("p");
   requestDetailsElement.textContent = `Request for #${request.amount.toFixed(
@@ -550,15 +549,19 @@ function displayRequestDetailsModal(request) {
   recipientSection.appendChild(rejectButton);
 }
 
-
-
-
 // Event listener for opening the modal on notification click
 notificationsElement.addEventListener("click", function () {
-    // Clear the recipient section before appending new elements
-    const recipientSection = document.getElementById("recipientSection");
-    recipientSection.innerHTML = "";
-  
+  // Clear the recipient section before appending new elements
+  const recipientSection = document.getElementById("recipientSection");
+  recipientSection.innerHTML = "";
+
+  // Check if there are any requests
+  if (currentUser.requests.length === 0) {
+    // Show "No notifications" message
+    const noNotificationsElement = document.createElement("p");
+    noNotificationsElement.textContent = "No notifications";
+    recipientSection.appendChild(noNotificationsElement);
+  } else {
     // Iterate over each request and display request details
     for (let i = 0; i < currentUser.requests.length; i++) {
       const request = currentUser.requests[i];
@@ -566,46 +569,11 @@ notificationsElement.addEventListener("click", function () {
         displayRequestDetailsModal(request);
       }
     }
-  
-    // Open the modal
-    modal.style.display = "block";
-  });
-  
-  
-  
-  
-  
-  
-  
-  
-
-// Function to close the modal
-function closeModal() {
-    modal.style.display = "none";
-    // Clear the recipient section when closing the modal
-    const recipientSection = document.getElementById("recipientSection");
-    recipientSection.innerHTML = "";
   }
 
-  // Event listener for closing the modal on close button click
-closeBtn.addEventListener("click", closeModal);
-
-// Event listener for closing the modal when clicking outside of it
-window.addEventListener("click", function (event) {
-  if (event.target === modal) {
-    closeModal();
-  }
+  // Open the modal
+  modal.style.display = "block";
 });
-
-// // Check if there are pending requests for the current user
-// if (currentUser.requests && currentUser.requests.length > 0) {
-//   currentUser.requests.forEach((request) => {
-//     // Display request details only for the recipient
-//     if (currentUser.email === request.recipientEmail) {
-//       displayRequestDetailsModal(request);
-//     }
-//   });
-// }
 
 // Display the user's transactions
 transactionsList.innerHTML =
